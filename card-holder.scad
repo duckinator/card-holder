@@ -4,7 +4,7 @@ deck_thickness  = 20;
 
 wall_thickness  = 2;
 part_width      = card_width  + (wall_thickness * 2);
-part_length     = card_length + (wall_thickness * 2);
+part_length     = card_length +  wall_thickness;
 part_height     = deck_thickness * 1.25;
 slot_width      = part_width / 2;
 slot_offset     = part_width / 4;
@@ -18,15 +18,15 @@ difference() {
     cube([part_width, part_length, part_height]);
 
     // Remove the section the cards actually sit in.
-    translate([ wall_thickness, -wall_thickness, wall_thickness])
+    translate([wall_thickness, -wall_thickness, wall_thickness])
         cube([card_width, part_length, part_height]);
 
     // Bottom slots.
-    for (i=[0,2,4])
+    for (i=[0,2,3])
         translate([ slot_offset,
-                    slot_offset * i - glitch_adjustment,
+                    slot_offset * i,
                    -glitch_adjustment])
-            cube([slot_offset * 2,
+            cube([slot_width,
                   slot_offset,
                   wall_thickness + (glitch_adjustment * 2)]);
     
