@@ -24,10 +24,10 @@ difference() {
     // Bottom slots.
     for (i=[0,2,3])
         translate([ slot_offset,
-                    slot_offset * i,
+                    slot_offset * i - glitch_adjustment,
                    -glitch_adjustment])
             cube([slot_width,
-                  slot_offset,
+                  slot_offset + glitch_adjustment,
                   wall_thickness + (glitch_adjustment * 2)]);
     
     // Side slots.
