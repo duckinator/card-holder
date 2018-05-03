@@ -3,7 +3,7 @@ card_length     = 85;
 deck_thickness  = 20;
 
 wall_thickness  = 2;
-part_width      = card_width + (wall_thickness * 2);
+part_width      = card_width  + (wall_thickness * 2);
 part_length     = card_length + (wall_thickness * 2);
 part_height     = deck_thickness * 1.25;
 slot_width      = part_width / 2;
@@ -43,7 +43,7 @@ difference() {
     translate([slot_offset,
                part_length - wall_thickness - glitch_adjustment,
                slot_offset / 2])
-        cube([slot_width + (wall_thickness * 2),
+        cube([slot_width,
               wall_thickness + (glitch_adjustment * 2),
               part_height]);
 }
