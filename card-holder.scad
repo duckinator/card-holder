@@ -7,8 +7,14 @@ slot_offset     = (card_width - slot_width) / 2;
 wall_thickness  = 2;
 
 part_width  = card_width + (wall_thickness * 2);
-part_length = card_length;
+part_length = card_length + (wall_thickness * 2);
 part_height = deck_thickness * 1.25 + wall_thickness;
+
+// It renders really weirdly if two intersecting things have the exact
+// same coordinates.
+glitch_adjustment = 0.1;
+
+width_chunk = card_width / 4;
 
 difference() {
     // Create a solid cube.
@@ -18,18 +24,29 @@ difference() {
     translate([ wall_thickness, -wall_thickness, wall_thickness])
         cube([card_width, part_length, part_height]);
 
-    // Remove the bottom slot.
-    translate([slot_offset, -1, -1])
-        cube([part_width - (slot_offset * 2), (card_length - slot_offset), wall_thickness + 2]);
+    // Bottom slots.
+    for (i=[0,2,4])
+        translate([ slot_offset,
+                    width_chunk * i - glitch_adjustment,
+                   -glitch_adjustment])
+            cube([width_chunk * 2,
+                  width_chunk,
+                  wall_thickness + (glitch_adjustment * 2)]);
+    
+    // Side slots.
+    for (i=[1,3])
+        translate([-glitch_adjustment,
+                    width_chunk * i,
+                    slot_offset / 2])
+            cube([part_width + (glitch_adjustment * 2),
+                  width_chunk,
+                  part_height - (width_chunk / 2) + glitch_adjustment]);
 
-    width_chunk = card_width / 4;
-    for (i=[1, 3])
-        translate([-1, width_chunk * i, slot_offset / 2])
-            cube([part_width + 2, width_chunk + 1, part_height]);
-
+    // Rear slot.
     translate([width_chunk,
-               part_length - (wall_thickness * 2),
+               part_length - wall_thickness - glitch_adjustment,
                slot_offset / 2])
-        cube([slot_width + (wall_thickness * 2), 6, part_height]);
-
+        cube([slot_width + (wall_thickness * 2),
+              wall_thickness + (glitch_adjustment * 2),
+              part_height]);
 }
