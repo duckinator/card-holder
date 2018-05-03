@@ -36,6 +36,10 @@ intersection() {
                    part_length - (wall_thickness * 2),
                    slot_offset / 2])
             cube([slot_width + (wall_thickness * 2), 6, part_height]);
+
+        translate([part_width / 2, part_length - (wall_thickness * 2), part_height * 1.65])
+            rotate(a=90, v=[1, 0, 0])
+                cylinder(part_length - wall_thickness, part_height * 1.4, part_height * 1.4);
     }
 
     translate([part_width / 2, part_length, 10])
