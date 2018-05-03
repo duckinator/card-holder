@@ -9,11 +9,8 @@ part_height     = deck_thickness * 1.25;
 slot_width      = part_width / 2;
 slot_offset     = part_width / 4;
 
-// It renders really weirdly if two intersecting things have the exact
-// same coordinates.
-glitch_adjustment = 0.1;
-
-difference() {
+// NOTE: render() makes it the preview not look weird, but performs worse.
+render() difference() {
     // Create a solid cube.
     cube([part_width, part_length, part_height]);
 
@@ -23,27 +20,17 @@ difference() {
 
     // Bottom slots.
     for (i=[0,2,3])
-        translate([ slot_offset,
-                    slot_offset * i - glitch_adjustment,
-                   -glitch_adjustment])
-            cube([slot_width,
-                  slot_offset + glitch_adjustment,
-                  wall_thickness + (glitch_adjustment * 2)]);
+        translate([slot_offset, slot_offset * i, 0])
+            cube([slot_width, slot_offset, wall_thickness]);
     
     // Side slots.
     for (i=[1,3])
-        translate([-glitch_adjustment,
-                    slot_offset * i,
-                    slot_offset / 2])
-            cube([part_width + (glitch_adjustment * 2),
+        translate([0, slot_offset * i, slot_offset / 2])
+            cube([part_width,
                   slot_offset,
-                  part_height - (slot_offset / 2) + glitch_adjustment]);
+                  part_height - (slot_offset / 2)]);
 
     // Rear slot.
-    translate([slot_offset,
-               part_length - wall_thickness - glitch_adjustment,
-               slot_offset / 2])
-        cube([slot_width,
-              wall_thickness + (glitch_adjustment * 2),
-              part_height]);
+    translate([slot_offset, part_length - wall_thickness, slot_offset / 2])
+        cube([slot_width, wall_thickness, part_height]);
 }
