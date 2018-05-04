@@ -20,11 +20,17 @@ module holder(card_width, card_length, deck_thickness) {
                 cube([slot_width, slot_offset, wall_thickness]);
         
         // Side slots.
-        for (i=[1,3])
-            translate([0, slot_offset * i, slot_offset / 2])
+        translate([0, 0, wall_thickness])
+            cube([part_width, part_length / 4 + 1, part_height]);
+
+        translate([0, (part_length / 2), wall_thickness])
+            cube([part_width, part_length / 4, part_height]);
+
+        *for (i=[0,2,3])
+            translate([0, slot_offset * i, wall_thickness])
                 cube([part_width,
                       slot_offset,
-                      part_height - (slot_offset / 2)]);
+                      part_height]);//part_height - (slot_offset / 2)]);
 
         // Rear slot.
         translate([slot_offset, part_length - wall_thickness, slot_offset / 2])
@@ -33,4 +39,12 @@ module holder(card_width, card_length, deck_thickness) {
 }
 
 // NOTE: render() makes it the preview not look weird, but performs worse.
-//render() holder(card_width=65, card_length=85, deck_thickness=20);
+render() {
+    holder(card_width=65, card_length=85, deck_thickness=20);
+}
+
+color("green") render() {
+    translate([0, 87, 27])
+        rotate([180, 0, 0])
+            holder(card_width=65, card_length=85, deck_thickness=20);
+}
